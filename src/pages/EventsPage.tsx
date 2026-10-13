@@ -4,8 +4,7 @@ import { PageHeader } from '../components/PageHeader'
 import { BeyName, getBeyDisplayName } from '../components/BeyName'
 import { calculateStatsFromRoundCodes } from '../lib/stats'
 import { useBeys, useEvents, useAllEntries } from '../hooks/useData'
-import Box from '@mui/material/Box'
-import Fab from '@mui/material/Fab'
+import { useLocalStorage } from '../hooks/useLocalStorage'
 import AddIcon from '@mui/icons-material/Add'
 
 export function EventsPage() {
@@ -16,7 +15,7 @@ export function EventsPage() {
 
   const [search, setSearch] = useState('')
   const [tagSearch, setTagSearch] = useState('')
-  const [selectedBeyIds, setSelectedBeyIds] = useState<string[]>([])
+  const [selectedBeyIds, setSelectedBeyIds] = useLocalStorage<string[]>('eventsFilter_beyIds', [])
   const [filterOpen, setFilterOpen] = useState(false)
 
   const loading =
@@ -225,12 +224,15 @@ export function EventsPage() {
           ))}
         </div>
       )}
-
-      <Box sx={{ '& > :not(style)': { m: 1 }, position: 'fixed', bottom: '4rem', right: '1rem' }}>
-        <Fab color="primary" aria-label="add event" onClick={() => navigate('/events/new')}>
-          <AddIcon />
-        </Fab>
-      </Box>
+      <button
+        aria-label="add event"
+        className="fab"
+        onClick={() => navigate('/events/new')}
+        type="button"
+      >
+        <AddIcon fontSize="inherit" />
+      </button>
     </section>
+    
   )
 }

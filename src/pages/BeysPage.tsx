@@ -7,8 +7,6 @@ import { PageHeader } from '../components/PageHeader'
 import { calculateStatsFromRoundCodes } from '../lib/stats'
 import { useBeys, useAllEntries } from '../hooks/useData'
 import { deleteBey } from '../lib/db'
-import Box from '@mui/material/Box'
-import Fab from '@mui/material/Fab'
 import AddIcon from '@mui/icons-material/Add'
 import type { Bey } from '../types/tracker'
 
@@ -205,11 +203,14 @@ export function BeysPage() {
         </div>
       )}
 
-      <Box sx={{ '& > :not(style)': { m: 1 }, position: 'fixed', bottom: '4rem', right: '1rem' }}>
-        <Fab color="primary" aria-label="add bey" onClick={() => navigate('/beys/new')}>
-          <AddIcon />
-        </Fab>
-      </Box>
+      <button
+        aria-label="add bey"
+        className="fab"
+        onClick={() => navigate('/beys/new')}
+        type="button"
+      >
+        <AddIcon fontSize="inherit" />
+      </button>
     </section>
   )
 }

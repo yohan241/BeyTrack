@@ -195,16 +195,15 @@ export function ScorePanel({
       <div className="score-btn-grid">
         {SCORE_BUTTONS.map((btn) => (
           <div key={btn.label} className="score-btn-row">
-            <button className="score-btn score-btn-loss" onClick={() => handleScore(btn, false)} type="button" aria-label={`Opponent ${btn.label}`}>
+            <button className="score-btn score-btn-loss" onClick={() => handleScore(btn, false)} type="button" aria-label={`Opponent ${btn.label} (–${btn.lossPts} pts)`}>
+              <span className="score-btn-side-pts">–{btn.lossPts}</span>
               <span className="score-btn-arrow">←</span>
             </button>
-            <button className="score-btn-label" onClick={() => handleScore(btn, true)} type="button" aria-label={`You: ${btn.label} (+${btn.winPts})`}>
-                            <span className="score-btn-side-pts">–{btn.lossPts}</span>
-{btn.label}
+            <div className="score-btn-label" aria-hidden="true">
+              {btn.label}
+            </div>
+            <button className="score-btn score-btn-win" onClick={() => handleScore(btn, true)} type="button" aria-label={`You ${btn.label} (+${btn.winPts} pts)`}>
               <span className="score-btn-side-pts">+{btn.winPts}</span>
-
-            </button>
-            <button className="score-btn score-btn-win" onClick={() => handleScore(btn, true)} type="button" aria-label={`You ${btn.label}`}>
               <span className="score-btn-arrow">→</span>
             </button>
           </div>

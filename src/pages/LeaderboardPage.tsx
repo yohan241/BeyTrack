@@ -5,15 +5,16 @@ import { BeyBreakdown } from '../components/BeyBreakdown'
 import { PageHeader } from '../components/PageHeader'
 import { calculateStatsFromRoundCodes } from '../lib/stats'
 import { useBeys, useAllEntries } from '../hooks/useData'
+import { useLocalStorage } from '../hooks/useLocalStorage'
 
 type SortOption = 'statPoints' | 'winRate' | 'scoreOverOpponentRate'
 
 export function LeaderboardPage() {
   const beysState = useBeys()
   const entriesState = useAllEntries()
-  const [minimumMatchesInput, setMinimumMatchesInput] = useState('40')
-  const [maximumMatchesInput, setMaximumMatchesInput] = useState('')
-  const [sortBy, setSortBy] = useState<SortOption>('statPoints')
+  const [minimumMatchesInput, setMinimumMatchesInput] = useLocalStorage('leaderboard_minMatches', '40')
+  const [maximumMatchesInput, setMaximumMatchesInput] = useLocalStorage('leaderboard_maxMatches', '')
+  const [sortBy, setSortBy] = useLocalStorage<SortOption>('leaderboard_sortBy', 'statPoints')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   const minimumMatches =

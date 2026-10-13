@@ -53,10 +53,8 @@ input {
 
 button,
 .button-link {
-  background: #087a4d;
   border: 0;
   border-radius: 999px;
-  color: #fff;
   cursor: pointer;
   font-weight: 700;
   padding: 0.7rem 1rem;
@@ -183,6 +181,7 @@ button,
   display: flex;
   gap: 0.9rem;
   padding: 1rem;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 .empty-state {
@@ -261,9 +260,10 @@ button,
   justify-content: space-between;
 }
 
-.event-title-row span {
-  color: #64726c;
-  font-size: 0.87rem;
+.event-title-row p {
+  color: #9c91a2;
+  font-size: 0.82rem;
+  margin: 0;
   white-space: nowrap;
 }
 
@@ -271,16 +271,13 @@ button,
 .event-link {
   justify-content: space-between;
   text-decoration: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 .event-link:hover {
-  border-color: #087a4d;
-  transform: translateY(-0.1rem) scale(1.01);
+  border-color: #f3c449;
+  transform: translateY(-0.1rem) scale(1.005);
   box-shadow: 0 0.5rem 1rem rgb(21 34 29 / 10%);
-  transition: transform 0.3s ease-in-out box-shadow 0.3s ease-in-out;
-
-  
- 
 }
 .event-link .card-main {
   flex: 1;
@@ -337,7 +334,7 @@ button,
 }
 
 .top-beys li:not(:first-child) strong {
-  color: #7a9688;
+  color: #b9afbf;
   font-weight: 700;
 }
 
@@ -495,13 +492,21 @@ button,
   background: #e7ad2f;
   box-shadow: 0 0.25rem 0.8rem rgb(231 173 47 / 23%);
   color: #17111e;
-  transition: background 160ms ease, transform 160ms ease;
+  transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
 }
 
 button:hover,
 .button-link:hover {
   background: #ffd767;
   transform: translateY(-1px);
+  box-shadow: 0 0.4rem 1.1rem rgb(231 173 47 / 35%);
+}
+
+button:active,
+.button-link:active {
+  transform: translateY(0);
+  box-shadow: 0 0.15rem 0.4rem rgb(231 173 47 / 20%);
+  transition-duration: 80ms;
 }
 
 .page-header h1 {
@@ -539,7 +544,6 @@ button:hover,
 .event-link:hover {
   border-color: #f3c449;
   box-shadow: 0 0.7rem 1.8rem rgb(0 0 0 / 42%), 0 0 1.3rem rgb(171 81 199 / 24%);
-  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 .event-link > span {
@@ -562,9 +566,12 @@ button:hover,
 }
 
 .top-beys li:not(:first-child),
-.top-beys li:not(:first-child) strong,
 .top-beys li:nth-child(2) strong {
   color: #9c91a2;
+}
+.top-beys li:not(:first-child) strong {
+  color: #b9afbf;
+  font-weight: 700;
 }
 
 /* Keep compact ranking rows on one line. Full build details remain visible elsewhere. */
@@ -598,6 +605,57 @@ button:hover,
 
 .bey-card:hover {
   background: linear-gradient(135deg, rgb(56 34 68 / 98%), rgb(28 20 35 / 98%));
+}
+
+/* ── Page enter animation ── */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-content > section {
+  animation: page-enter 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Card stagger on list load ── */
+@keyframes card-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.stack-list > * {
+  animation: card-enter 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.stack-list > *:nth-child(1)  { animation-delay: 0ms; }
+.stack-list > *:nth-child(2)  { animation-delay: 35ms; }
+.stack-list > *:nth-child(3)  { animation-delay: 70ms; }
+.stack-list > *:nth-child(4)  { animation-delay: 105ms; }
+.stack-list > *:nth-child(5)  { animation-delay: 140ms; }
+.stack-list > *:nth-child(n+6) { animation-delay: 175ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-content > section,
+  .stack-list > * {
+    animation: none;
+  }
+  .modal-overlay,
+  .modal-sheet,
+  .inline-confirm,
+  .bey-filter-tags {
+    animation: none;
+  }
+  .bey-accordion-chevron {
+    transition: color 160ms ease;
+  }
 }
 
 .bey-card-pinned {
@@ -653,6 +711,36 @@ code {
   background: #ffd767 !important;
 }
 
+/* ── FAB — fixed add button ── */
+.fab {
+  align-items: center;
+  background: #f3c449;
+  border: 0;
+  border-radius: 50%;
+  bottom: 5rem;
+  box-shadow: 0 0.35rem 1rem rgb(0 0 0 / 40%), 0 0 1rem rgb(243 196 73 / 30%);
+  color: #17111e;
+  cursor: pointer;
+  display: flex;
+  font-size: 1.5rem;
+  height: 3.5rem;
+  justify-content: center;
+  position: fixed;
+  right: 1.25rem;
+  transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  width: 3.5rem;
+  z-index: 50;
+}
+.fab:hover {
+  background: #ffd767;
+  box-shadow: 0 0.5rem 1.4rem rgb(0 0 0 / 50%), 0 0 1.4rem rgb(243 196 73 / 45%);
+  transform: translateY(-2px) scale(1.06);
+}
+.fab:active {
+  transform: scale(0.94);
+  transition-duration: 80ms;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    SHARED FORM STYLES (AddBeyPage + AddEventPage step 1)
 ═══════════════════════════════════════════════════════════════ */
@@ -662,15 +750,22 @@ code {
   border: 1px solid #70407e;
   border-radius: 999px;
   color: #d7a0e8;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  padding: 0.4rem 0.9rem;
+  min-height: 2.75rem;
+  padding: 0.6rem 1.1rem;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
   white-space: nowrap;
 }
 .header-back-btn:hover {
   background: #2a1535;
   border-color: #f3c449;
   color: #f3c449;
+  transform: translateY(-1px);
+}
+.header-back-btn:active {
+  transform: translateY(0);
+  transition-duration: 80ms;
 }
 
 .form-label {
@@ -729,21 +824,33 @@ code {
 }
 
 .btn-primary {
-  background: #087a4d;
+  background: #f3c449;
   border: 0;
   border-radius: 999px;
-  color: #fff;
+  box-shadow: 0 0.25rem 0.8rem rgb(243 196 73 / 28%);
+  color: #17111e;
   cursor: pointer;
   font: inherit;
   font-weight: 700;
   padding: 0.75rem 1.25rem;
   text-align: center;
+  transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
 }
-.btn-primary:hover { background: #05613d; }
+.btn-primary:hover {
+  background: #ffd767;
+  box-shadow: 0 0.4rem 1.1rem rgb(243 196 73 / 40%);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: translateY(0);
+  transition-duration: 80ms;
+}
 .btn-primary:disabled {
-  background: #2a3d35;
-  color: #5a7a6a;
+  background: #2a2030;
+  box-shadow: none;
+  color: #4a3d55;
   cursor: not-allowed;
+  transform: none;
 }
 
 .btn-secondary {
@@ -756,8 +863,17 @@ code {
   font-weight: 700;
   padding: 0.75rem 1.25rem;
   text-align: center;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
-.btn-secondary:hover { background: #2a1535; }
+.btn-secondary:hover {
+  background: #2a1535;
+  border-color: #d7a0e8;
+  transform: translateY(-1px);
+}
+.btn-secondary:active {
+  transform: translateY(0);
+  transition-duration: 80ms;
+}
 
 .visually-hidden {
   clip: rect(0 0 0 0);
@@ -848,6 +964,7 @@ code {
   background: #1b1422;
   border: 2px solid #70407e;
   border-radius: 0.85rem;
+  box-shadow: none;
   color: #f7f3eb;
   cursor: pointer;
   display: flex;
@@ -856,10 +973,18 @@ code {
   font: inherit;
   gap: 0.3rem;
   padding: 0.55rem 0.7rem;
-  transition: border-color 0.15s, background 0.15s;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
   width: 5.5rem;
 }
-.carousel-chip:hover { border-color: #d7a0e8; }
+.carousel-chip:hover {
+  border-color: #d7a0e8;
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+.carousel-chip:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 80ms;
+}
 .carousel-chip-active {
   background: #2a1535;
   border-color: #f3c449;
@@ -900,6 +1025,7 @@ code {
   border-color: #f3c449;
   color: #f3c449;
   background: #1e1428;
+  box-shadow: none;
 }
 
 .carousel-chip-add-icon {
@@ -985,16 +1111,23 @@ code {
   background: transparent;
   border: 0;
   border-radius: 999px;
+  box-shadow: none;
   color: #5a4a66;
   cursor: pointer;
   flex-shrink: 0;
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1;
-  padding: 0.3rem 0.4rem;
+  min-height: 2rem;
+  padding: 0.3rem 0.5rem;
   transition: color 0.15s;
 }
-.ebe-remove:hover { color: #ff7184; }
+.ebe-remove:hover {
+  background: transparent;
+  box-shadow: none;
+  color: #ff7184;
+  transform: none;
+}
 
 /* ── Bey stat row ── */
 .bey-stat-row {
@@ -1083,53 +1216,51 @@ code {
 
 /* Win / loss arrow buttons */
 .score-btn {
+  align-items: center;
   border: 0;
   border-radius: 0.55rem;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
   font: inherit;
   font-size: 1.1rem;
   font-weight: 900;
-  line-height: 2;
+  gap: 0.15rem;
+  justify-content: center;
   padding: 0.55rem 0;
-  transition: opacity 0.1s, transform 0.1s;
+  transition: opacity 100ms ease, transform 100ms ease, background 100ms ease;
 }
-.score-btn:active { transform: scale(0.93); }
+.score-btn:hover { opacity: 0.88; }
+.score-btn:active { transform: scale(0.91); transition-duration: 60ms; }
 
 .score-btn-win {
   background: #087a4d;
   color: #fff;
 }
-.score-btn-win:hover { background: #05613d; }
+.score-btn-win:hover { background: #05a060; opacity: 1; }
 
 .score-btn-loss {
   background: #7a1d2e;
   color: #fff;
 }
-.score-btn-loss:hover { background: #a02540; }
+.score-btn-loss:hover { background: #a02540; opacity: 1; }
 
-/* Centre label button */
+/* Centre label — display only, not interactive */
 .score-btn-label {
   align-items: center;
   background: #2a1a35;
   border: 1px solid #3a2545;
   border-radius: 0.55rem;
   color: #f7f3eb;
-  cursor: pointer;
   display: flex;
   font: inherit;
   font-size: 0.82rem;
   font-weight: 700;
-  gap: 0.5rem;
-  justify-content: space-between;
-  padding: 0.55rem 0.75rem;
-  text-align: left;
-  transition: background 0.1s, border-color 0.1s;
+  justify-content: center;
+  padding: 0.55rem 0.5rem;
+  text-align: center;
+  user-select: none;
 }
-.score-btn-label:hover {
-  background: #3a2545;
-  border-color: #70407e;
-}
-.score-btn-label:active { transform: scale(0.97); }
 
 .score-btn-pts {
   color: #64d69d;
@@ -1151,20 +1282,28 @@ code {
   background: #2a1a35;
   border: 2px solid #70407e;
   border-radius: 999px;
+  box-shadow: none;
   color: #d7a0e8;
   cursor: pointer;
   font: inherit;
   font-size: 0.78rem;
   font-weight: 800;
+  min-height: 2.3rem;
   padding: 0.35rem 0.9rem;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 .sf-toggle-on {
   background: #3d0e1a;
   border-color: #ff7184;
   color: #ff7184;
 }
-.sf-toggle:hover { border-color: #f3c449; color: #f3c449; }
+.sf-toggle:hover {
+  background: #2a1a35;
+  border-color: #f3c449;
+  box-shadow: none;
+  color: #f3c449;
+  transform: none;
+}
 
 .sf-hint {
   color: #5a4a66;
@@ -1176,16 +1315,29 @@ code {
   background: transparent;
   border: 1px solid #5a4a66;
   border-radius: 999px;
+  box-shadow: none;
   color: #8a7a96;
   cursor: pointer;
   font: inherit;
   font-size: 0.75rem;
   font-weight: 700;
   margin-left: auto;
+  min-height: 2.2rem;
   padding: 0.3rem 0.8rem;
-  transition: border-color 0.15s, color 0.15s;
+  transition: border-color 160ms ease, color 160ms ease;
 }
-.score-btn-undo:hover { border-color: #ff7184; color: #ff7184; }
+.score-btn-undo:hover {
+  background: transparent;
+  border-color: #ff7184;
+  box-shadow: none;
+  color: #ff7184;
+  transform: none;
+}
+.score-btn-undo:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+  transform: none;
+}
 
 .last-round-reminder {
   color: #5a4a66;
@@ -1207,6 +1359,7 @@ code {
   background: #f3c449;
   border: 0;
   border-radius: 999px;
+  box-shadow: 0 0.3rem 1rem rgb(243 196 73 / 35%);
   color: #120d17;
   cursor: pointer;
   display: block;
@@ -1216,15 +1369,25 @@ code {
   letter-spacing: 0.04em;
   padding: 0.85rem;
   text-align: center;
-  transition: background 0.15s, transform 0.1s;
+  transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
   width: 100%;
 }
-.btn-done:hover { background: #e8b93a; }
-.btn-done:active { transform: scale(0.98); }
+.btn-done:hover {
+  background: #ffd767;
+  box-shadow: 0 0.4rem 1.3rem rgb(243 196 73 / 50%);
+  transform: translateY(-1px);
+}
+.btn-done:active {
+  transform: translateY(0) scale(0.99);
+  box-shadow: 0 0.15rem 0.5rem rgb(243 196 73 / 25%);
+  transition-duration: 80ms;
+}
 .btn-done:disabled {
   background: #2a2030;
+  box-shadow: none;
   color: #4a3d55;
   cursor: not-allowed;
+  transform: none;
 }
 
 /* ── Bey picker modal ── */
@@ -1239,6 +1402,12 @@ code {
   right: 0;
   top: 0;
   z-index: 100;
+  animation: overlay-in 200ms ease both;
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .modal-sheet {
@@ -1252,6 +1421,12 @@ code {
   padding: 1.25rem 1rem 2rem;
   width: 100%;
   max-width: 46rem;
+  animation: sheet-up 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
 }
 
 .modal-header {
@@ -1271,13 +1446,22 @@ code {
   background: transparent;
   border: 0;
   border-radius: 999px;
+  box-shadow: none;
   color: #8a7a96;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 700;
+  min-height: 2.5rem;
+  min-width: 2.5rem;
   padding: 0.35rem 0.6rem;
+  transition: color 160ms ease;
 }
-.modal-close:hover { color: #ff7184; }
+.modal-close:hover {
+  background: transparent;
+  box-shadow: none;
+  color: #ff7184;
+  transform: none;
+}
 
 .modal-empty {
   color: #5a4a66;
@@ -1299,6 +1483,7 @@ code {
   background: #221530;
   border: 1px solid #3a2545;
   border-radius: 0.85rem;
+  box-shadow: none;
   color: #f7f3eb;
   cursor: pointer;
   display: flex;
@@ -1306,12 +1491,14 @@ code {
   gap: 0.75rem;
   padding: 0.75rem;
   text-align: left;
-  transition: border-color 0.15s, background 0.15s;
+  transition: border-color 160ms ease, background 160ms ease;
   width: 100%;
 }
 .bey-pick-item:hover {
   background: #2a1a35;
   border-color: #f3c449;
+  box-shadow: none;
+  transform: none;
 }
 .bey-pick-item p {
   color: #8a7a96;
@@ -1352,6 +1539,7 @@ code {
   background: transparent;
   border: 0;
   border-radius: 0.75rem;
+  box-shadow: none;
   color: #9c91a2;
   cursor: pointer;
   display: flex;
@@ -1361,11 +1549,12 @@ code {
   gap: 0.75rem;
   padding: 0.65rem 0.85rem;
   text-align: left;
-  transition: background 0.15s, color 0.15s;
+  transition: background 160ms ease, color 160ms ease;
   width: 100%;
 }
 .sidenav-link:hover {
   background: rgb(155 82 181 / 12%);
+  box-shadow: none;
   color: #f7f3eb;
   transform: none; /* override global button hover lift */
 }
@@ -1461,10 +1650,14 @@ code {
     align-items: start;
   }
 
-  /* FAB: re-position relative to content column */
+  /* FAB: fixed to bottom-right, above the content area; no bottom nav on desktop */
   .MuiFab-root {
     bottom: 2rem !important;
     right: 2rem !important;
+  }
+  .fab {
+    bottom: 2rem;
+    right: 2rem;
   }
 
   /* Bey carousel wraps instead of scrolling on desktop */
@@ -1512,18 +1705,21 @@ code {
   background: transparent;
   border: 0;
   border-radius: inherit;
+  box-shadow: none;
   color: inherit;
   cursor: pointer;
   display: flex;
   gap: 0.9rem;
   padding: 1rem;
   text-align: left;
+  transition: background 160ms ease;
   width: 100%;
   /* reset the global button transform hover */
   transform: none;
 }
 .bey-accordion-trigger:hover {
   background: rgb(255 255 255 / 3%);
+  box-shadow: none;
   transform: none;
 }
 .bey-accordion-open .bey-accordion-trigger {
@@ -1549,9 +1745,11 @@ code {
   font-size: 0.65rem;
   margin-left: 0;
   margin-top: 0.2rem;
+  transition: color 160ms ease, transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .bey-accordion-open .bey-accordion-chevron {
   color: #f3c449;
+  transform: rotate(180deg);
 }
 
 /* ── Breakdown panel ── */
@@ -1825,15 +2023,21 @@ code {
   color: #d7a0e8;
   cursor: pointer;
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  padding: 0.4rem 1rem;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  min-height: 2.75rem;
+  padding: 0.6rem 1.1rem;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
 .btn-edit:hover {
   background: #2a1535;
   border-color: #f3c449;
   color: #f3c449;
+  transform: translateY(-1px);
+}
+.btn-edit:active {
+  transform: translateY(0);
+  transition-duration: 80ms;
 }
 
 .btn-danger-outline {
@@ -1843,23 +2047,35 @@ code {
   color: #ff7184;
   cursor: pointer;
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  padding: 0.4rem 1rem;
-  transition: background 0.15s, border-color 0.15s;
+  min-height: 2.75rem;
+  padding: 0.6rem 1.1rem;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
 .btn-danger-outline:hover {
   background: #3d0e1a;
   border-color: #ff7184;
+  transform: translateY(-1px);
+}
+.btn-danger-outline:active {
+  transform: translateY(0);
+  transition-duration: 80ms;
 }
 
 /* Inline confirm box */
 .inline-confirm {
+  animation: confirm-in 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
   background: #1e1028;
   border: 1px solid #7a1d2e;
   border-radius: 0.85rem;
   margin-bottom: 1rem;
   padding: 1rem;
+}
+
+@keyframes confirm-in {
+  from { opacity: 0; transform: translateY(-0.3rem) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .inline-confirm-msg {
@@ -1882,11 +2098,18 @@ code {
   font: inherit;
   font-size: 0.85rem;
   font-weight: 700;
-  padding: 0.5rem 1.1rem;
-  transition: background 0.15s;
+  padding: 0.6rem 1.1rem;
+  transition: background 160ms ease, transform 160ms ease;
 }
-.btn-danger:hover { background: #c42e4e; }
-.btn-danger:disabled { background: #5a2030; color: #8a5060; cursor: not-allowed; }
+.btn-danger:hover {
+  background: #c42e4e;
+  transform: translateY(-1px);
+}
+.btn-danger:active {
+  transform: translateY(0);
+  transition-duration: 80ms;
+}
+.btn-danger:disabled { background: #5a2030; color: #8a5060; cursor: not-allowed; transform: none; }
 
 /* ═══════════════════════════════════════════════════════════════
    PAGE SEARCH BAR (Beys + Events pages)
@@ -1926,16 +2149,6 @@ code {
   grid-template-columns: 4rem 1fr 4rem;
 }
 
-/* Arrow buttons: stack arrow + pts vertically */
-.score-btn {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  justify-content: center;
-  padding: 0.45rem 0;
-}
-
 .score-btn-arrow {
   font-size: 1rem;
   font-weight: 900;
@@ -1961,19 +2174,28 @@ code {
   background: transparent;
   border: 1px solid #5a4a66;
   border-radius: 999px;
+  box-shadow: none;
   color: #8a7a96;
   cursor: pointer;
   font: inherit;
   font-size: 0.75rem;
   font-weight: 700;
+  min-height: 2.2rem;
   padding: 0.3rem 0.8rem;
-  transition: border-color 0.15s, color 0.15s;
+  transition: border-color 160ms ease, color 160ms ease;
 }
-.score-btn-redo:hover:not(:disabled) { border-color: #64d69d; color: #64d69d; }
+.score-btn-redo:hover:not(:disabled) {
+  background: transparent;
+  border-color: #64d69d;
+  box-shadow: none;
+  color: #64d69d;
+  transform: none;
+}
 .score-btn-redo:disabled,
 .score-btn-undo:disabled {
   opacity: 0.35;
   cursor: not-allowed;
+  transform: none;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -2008,6 +2230,7 @@ code {
   background: transparent;
   border: 1px dashed #70407e;
   border-radius: 0.75rem;
+  box-shadow: none;
   color: #d7a0e8;
   cursor: pointer;
   font: inherit;
@@ -2016,10 +2239,16 @@ code {
   margin-bottom: 0.5rem;
   padding: 0.55rem 1rem;
   text-align: left;
-  transition: border-color 0.15s, color 0.15s;
+  transition: border-color 160ms ease, color 160ms ease;
   width: 100%;
 }
-.modal-new-bey-btn:hover { border-color: #f3c449; color: #f3c449; }
+.modal-new-bey-btn:hover {
+  background: transparent;
+  border-color: #f3c449;
+  box-shadow: none;
+  color: #f3c449;
+  transform: none;
+}
 
 .modal-new-bey-form {
   background: #16101f;
@@ -2175,6 +2404,7 @@ code {
   align-items: center;
   background: transparent;
   border: 0;
+  box-shadow: none;
   color: inherit;
   cursor: pointer;
   display: flex;
@@ -2184,6 +2414,12 @@ code {
   min-height: 2.6rem;
   padding: 0.85rem 1rem;
   text-align: left;
+  transition: none;
+}
+.bey-filter-toggle:hover {
+  background: transparent;
+  box-shadow: none;
+  transform: none;
 }
 .bey-filter-toggle:hover .bey-filter-title { color: #f3c449; }
 
@@ -2224,13 +2460,22 @@ code {
   color: #ff7184;
   cursor: pointer;
   font: inherit;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
   margin-left: 0.5rem;
-  padding: 0.2rem 0.65rem;
-  transition: background 0.12s;
+  min-height: 2.2rem;
+  padding: 0.35rem 0.8rem;
+  transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
 }
-.bey-filter-clear:hover { background: #3d0e1a; }
+.bey-filter-clear:hover {
+  background: #3d0e1a;
+  border-color: #ff7184;
+  transform: translateY(-1px);
+}
+.bey-filter-clear:active {
+  transform: translateY(0);
+  transition-duration: 60ms;
+}
 
 .bey-filter-search {
   background: #120d17;
@@ -2257,6 +2502,12 @@ code {
   flex-wrap: wrap;
   gap: 0.4rem;
   justify-content: space-around;
+  animation: filter-reveal 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes filter-reveal {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .bey-filter-tag {
@@ -2266,14 +2517,20 @@ code {
   color: #9c91a2;
   cursor: pointer;
   font: inherit;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  padding: 0.3rem 0.8rem;
-  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.9rem;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease, transform 120ms ease;
 }
 .bey-filter-tag:hover {
   border-color: #70407e;
   color: #d7a0e8;
+  transform: translateY(-1px);
+}
+.bey-filter-tag:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 60ms;
 }
 
 /* Active / selected tag */
